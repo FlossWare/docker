@@ -1,0 +1,240 @@
+##########################################################
+#
+#  Execution definitions...
+#
+##########################################################
+
+Exec xhost +
+
+##########################################################
+#
+# Global definitions...
+#
+##########################################################
+
+EdgeResistance 250 10
+EdgeScroll     0 0
+ClickTime      750
+OpaqueMoveSize 100
+#WindowFont     -adobe-times-bold-r-*-*-11-*-*-*-*-*-*-*
+WindowFont     -*-lucida-bold-r-*-*-11-*-*-*-*-*-*-*
+HilightColor   black palevioletred
+#DeskTopSize    1x6
+#DeskTopSize    4x1
+DeskTopSize    1x3
+ColormapFocus  FollowsMouse
+
+IconFont       -*-lucida-bold-r-*-*-11-*-*-*-*-*-*-*
+#IconFont       -adobe-helvetica-bold-r-*-*-10-*-*-*-*-*-*-*
+
+MenuStyle      * Background grey
+MenuStyle      * Foreground black
+MenuStyle      * Font       -*-lucida-bold-r-*-*-11-*-*-*-*-*-*-*
+#MenuStyle      * Font       -adobe-times-bold-r-*-*-12-*-*-*-*-*-*-*
+
+
+
+##########################################################
+#
+# Style definitions...
+#
+##########################################################
+
+Style "*"           BorderWidth 3, HandleWidth 3
+Style "*"           Icon unknown1.xpm, Color lightgrey/dimgrey
+Style "*"           MWMFunctions, MWMDecor, HintOverride
+Style "*"           DecorateTransient, NoPPosition
+Style "*"           IconBox 0 -10 -280 -1
+Style "*"           FocusFollowsMouse
+Style "*"           RandomPlacement, SmartPlacement
+Style "*"           ResizeOpaque
+Style "*"           NoIcon
+
+Style "FvwmTaskBar" NoHandles, NoTitle, WindowListSkip, StaysOnTop, Sticky
+
+Style "FvwmBanner"  NoTitle, WindowListSkip
+
+#Style "FvwmPager"   NoHandles, NoTitle, WindowListSkip, Sticky, StaysOnTop
+#Style "FvwmPager"   NoHandles, NoTitle, WindowListSkip, Sticky
+
+Style "FvwmWinList" WindowListSkip
+
+Style pidgin        Sticky, GrabFocusOff
+Style xchat         Sticky, GrabFocusOff
+
+
+
+##########################################################
+#
+# Key definitions...
+#
+##########################################################
+
+Key Next      A       SCM     Next [*] Focus
+Key Prior     A       SCM     Prev [*] Focus
+
+
+
+##########################################################
+#
+# Mouse definitions...
+#
+##########################################################
+
+Mouse   1   R     A Menu DesktopMenu Nop
+Mouse   2   R     A Nop
+Mouse   3   R     A Module FvwmWinList Transient
+
+Mouse   1   1     A Menu WindowMenu Close
+Mouse   1   2     A Maximize
+Mouse   1   4     A Iconify
+
+Mouse   1   T     A MoveRaiseLowerFunction
+Mouse   1   SF    A Resize
+Mouse   2   SIF   A Move
+Mouse   3   TSIF  A RaiseLower
+Mouse   2   T     A WindowShadeFunction
+Mouse   4   T     A WindowShade True
+Mouse   5   T     A WindowShade False
+
+
+##########################################################
+#
+# Function definitions...
+#
+##########################################################
+
+#AddToFunc StartFunction
+#+    "I" Module FvwmTaskBar
+#+    "I" Module FvwmPager
+#+    "I" Module FvwmBanner
+
+
+AddToFunc StartFunction
+    +   I Module FvwmBanner
+
+
+AddToFunc MoveRaiseLowerFunction
+    +    I    Raise
+    +    M    Move
+    +    D    Lower
+
+
+AddToFunc RaiseFocusFunction
+    +   I Iconify off
+    +   I Raise
+    +   I Focus
+
+
+AddToFunc WindowShadeFunction
+    +   I WindowShade
+    +   I Raise
+
+
+
+##########################################################
+#
+# Module definitions...
+#
+##########################################################
+
+Module FvwmBacker
+    *FvwmBacker: Command (Page * *) -solid darkblue
+
+Module FvwmTaskBar
+    *FvwmTaskBar: AutoHide 3
+    *FvwmTaskBar: AutoStick
+    *FvwmTaskBar: Font -*-lucida-bold-r-*-*-11-*-*-*-*-*-*-*
+    *FvwmTaskBar: Fore black
+    *FvwmTaskBar: Back grey
+    *FvwmTaskBar: FocusFore white
+    *FvwmTaskBar: FocusBack blue
+    *FvwmTaskBar: ClockFormat %a %I:%M%P %m/%d/%y
+    *FvwmTaskBar: DeskOnly
+    *FvwmTaskBar: Geometry +0+0
+    *FvwmTaskBar: PageOnly
+    *FvwmTaskBar: ShowTips
+    *FvwmTaskBar: UseSkipList
+    *FvwmTaskBar: StartMenu "StartMenu"
+    *FvwmTaskBar: StartName Fvwm
+    *FvwmTaskBar: 3DFvwm
+
+
+*FvwmWinList: Action      Click1 RaiseFocusFunction
+*FvwmWinList: Back        grey
+*FvwmWinList: Fore        black
+*FvwmWinList: FocusFore   white
+*FvwmWinList: FocusBack   blue
+*FvwmWinList: Font        -*-lucida-bold-r-*-*-11-*-*-*-*-*-*-*
+*FvwmWinList: UseSkipList
+
+##########################################################
+#
+# Menu definitions...
+#
+##########################################################
+
+AddToMenu WindowMenu
+    +    "&Close"         Close
+    +    "&Destroy"       Destroy
+    +    "&Sticky"        Stick
+    +    "S&hade"         WindowShade
+
+AddToMenu StartMenu
+    +    "&Lock Screen"	   Exec xscreensaver-command -lock
+    +    "&Screen Saver"   Exec xscreensaver-demo
+    +    ""                Nop
+    +    "&Restart Fvwm2"  Restart
+    +    "&Exit Fvwm2"     Quit	
+    +    ""                Nop
+    +    "Desktop"         Popup DesktopMenu
+
+AddToMenu DesktopMenu
+    +    "&Applications"   Popup ApplicationsMenu 
+    +    "&Connections"    Popup ConnectionsMenu
+    +    "&Utility"        Popup UtilityMenu
+
+AddToMenu ApplicationsMenu
+    +    "&Kopete"         Exec exec kopete
+    +    "&Pidgin"         Exec exec pidgin
+    +    "&XChat"          Exec exec xchat
+    +    ""                Nop
+    +    "&Acroread"       Exec exec acroread
+    +    "&Xpdf"           Exec exec xpdf
+    +    ""                Nop
+    +    "&Chrome"         Exec exec google-chrome
+    +    "&Firefox"        Exec exec firefox
+    +    "&Konqueror"      Exec exec konqueror
+    +    "&Seamonkey"      Exec exec seamonkey
+    +    "T&hunderbird"    Exec exec thunderbird
+    +    ""                Nop
+    +    "Freemind"        Exec exec freemind.sh
+    +    ""                Nop
+    +    "D&atabase"       Exec exec /opt/openoffice.org3/program/sbase
+    +    "D&raw"           Exec exec /opt/openoffice.org3/program/sdraw
+    +    "Mat&h"           Exec exec /opt/openoffice.org3/program/smath
+    +    "Open O&ffice"    Exec exec /opt/openoffice.org3/program/soffice
+    +    "P&resentation"   Exec exec /opt/openoffice.org3/program/simpress
+    +    "S&preadsheet"    Exec exec /opt/openoffice.org3/program/scalc
+    +    "W&ordprocessor"  Exec exec /opt/openoffice.org3/program/swriter
+    +    ""                Nop
+    +    "&Amarok"         Exec exec amarok
+    +    "&Movie Player"   Exec exec smplayer
+    +    "&Real Audio"     Exec exec realplay
+    +    "&Xmms"           Exec exec xmms
+
+AddToMenu ConnectionsMenu
+    +    "&Konsole"                    Exec exec konsole
+    +    "&Terminator"                 Exec exec terminator
+    +    "&Xterm"                      Exec exec xterm -fg white  -bg black -fn -*-fixed-*-*-*-*-14-*-*-*-*-*-*-* -ls -sb -sl 1000 -geometry 88x50 -T localhost -e bash
+    +    ""                            Nop
+    +    "&Nxclient"                   Exec nxclient 
+
+AddToMenu UtilityMenu
+    +    "&Display"               Exec exec gnome-display-properties
+    +    "&System Monitor"        Exec exec gnome-system-monitor
+    +    "&Top"                   Exec exec xterm -bg cyan   -fg black -fn -*-fixed-*-*-*-*-14-*-*-*-*-*-*-* -e top
+    +    "Tail &Xsession Errors"  Exec exec xterm -bg yellow -fg black -fn -*-fixed-*-*-*-*-14-*-*-*-*-*-*-* -e tail -f ~/.xsession-errors
+    +    ""                 Nop
+    +    "&Virtual Box"           Exec exec virtualbox
+    +    "&Virt Manager"          Exec exec virt-manager

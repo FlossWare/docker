@@ -1,0 +1,10 @@
+#!/bin/bash
+
+export XKL_XMODMAP_DISABLE=1
+
+autocutsel -fork
+
+fvwm -f ~/config/fvwm2rc
+
+unset SESSION_MANAGER 
+unset DBUS_SESSION_BUS_ADDRESS 
