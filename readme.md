@@ -10,3 +10,5 @@ Directions to build:
 * cd ../gui
 * docker build -t FlossWare:gui .
 * docker run -td -p 5901:5901 FlossWare:gui
+
+_The ```vncpassword``` is ```password``` (no quotes)_
